@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Emosi - Lacak Hubungan Anda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-panel {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .list-item-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-700">🏦 Bank Emosi</h1>
+            <p class="text-[#5C7D8B] mt-2">Catat dan lacak saldo emosional dalam hubungan Anda.</p>
+        </header>
+
+        <main>
+            <!-- Tombol Aksi Utama -->
+            <div class="flex justify-center gap-4 mb-8">
+                <button id="open-person-modal-btn" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition shadow-md">
+                    + Tambah Relasi
+                </button>
+                <button id="open-transaction-modal-btn" class="bg-[#9CC6DB] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#86AFC5] transition shadow-md">
+                    + Catat Interaksi
+                </button>
+            </div>
+
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <section id="score-guidance" class="bg-white p-6 rounded-lg shadow-md">
+                    <details class="cursor-pointer">
+                        <summary class="text-xl font-bold text-blue-700">Panduan Skor Interaksi (Klik untuk Buka)</summary>
+                        <div class="space-y-3 text-gray-700 mt-4">
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Skor 5 (Gestur Kecil / Apresiasi)</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Deposit: Mengucapkan terima kasih, pujian tulus, membuatkan kopi, pesan singkat menanyakan kabar.</li>
+                                    <li>Withdrawal: Terlambat membalas pesan, lupa hal kecil, kritik yang kurang membangun.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Skor 10 (Upaya Sadar / Bantuan Aktif)</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Deposit: Meluangkan waktu mendengarkan curhat, membantu tugas/pekerjaan, hadiah kecil bermakna, menepati janji penting.</li>
+                                    <li>Withdrawal: Membatalkan janji mendadak, tidak menunjukkan empati, mengabaikan permintaan tolong.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Skor 15 (Dukungan Besar / Pengorbanan)</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Deposit: Dukungan besar saat krisis, membantu finansial, pengorbanan waktu/kepentingan, menjaga rahasia besar.</li>
+                                    <li>Withdrawal: Melanggar kepercayaan, berbohong hal penting, tidak ada saat dibutuhkan.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
+                </section>
+
+                <section id="deposit-withdraw-guidance" class="bg-white p-6 rounded-lg shadow-md">
+                    <details class="cursor-pointer">
+                        <summary class="text-xl font-bold text-blue-700">Prinsip Kapan Harus Deposit & Withdraw (Klik untuk Buka)</summary>
+                        <div class="space-y-3 text-gray-700 mt-4">
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Deposit: Lakukan Secara Proaktif & Segera</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Kapan: Jangan menunggu! Jadikan kebiasaan untuk melakukan 'deposit' kecil setiap hari. Tujuannya adalah membangun saldo positif yang tebal sebagai bantalan untuk masa sulit.</li>
+                                    <li>Contoh: Setiap kali Anda merasa bersyukur atas tindakan seseorang, sekecil apa pun, segera catat sebagai deposit.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Withdrawal: Jujur & Jadikan Pembelajaran</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Kapan: Segera setelah Anda sadar telah melakukan 'kesalahan' atau interaksi negatif. Jangan menunda karena merasa tidak enak.</li>
+                                    <li>Tujuan: Tujuannya bukan untuk menghukum diri sendiri, tetapi untuk kesadaran. Ini adalah pengingat jujur bahwa sebuah 'penarikan' telah terjadi dan perlu diperbaiki.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Aturan Rasio 5:1 (Prinsip Sehat)</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Hubungan yang stabil memiliki rasio 5 interaksi positif (deposit) untuk setiap 1 interaksi negatif (withdrawal).</li>
+                                    <li>Jika Anda mencatat 1 withdrawal, sadarilah bahwa Anda perlu sekitar 5 deposit untuk menyeimbangkannya kembali.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg text-blue-600">Saat Saldo Rendah atau Negatif</h4>
+                                <ul class="list-disc pl-5">
+                                    <li>Anggap sebagai 'Lampu Kuning': Sinyal bahwa hubungan ini butuh perhatian ekstra.</li>
+                                    <li>Tindakan: Ini adalah waktunya untuk secara sadar merencanakan beberapa deposit berkualitas.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
+                </section>
+            </section>
+
+            <!-- Tampilan Utama (Daftar dan Grafik) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <section id="people-list-section" class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-blue-700 border-b pb-3 mb-4">Saldo Emosi Relasi</h2>
+                    <ul id="people-list" class="space-y-2"></ul>
+                </section>
+                
+                <section id="history-section" class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-blue-700 border-b pb-3 mb-4">📜 Riwayat Interaksi</h2>
+                    <ul id="history-list" class="space-y-3"></ul>
+                </section>
+            </div>
+
+            <section id="chart-section" class="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h2 class="text-2xl font-bold text-blue-700 border-b pb-3 mb-4">📊 Grafik Saldo Emosi</h2>
+                <div class="h-64 md:h-80"><canvas id="emotion-chart"></canvas></div>
+            </section>
+            
+            <section id="score-guidance" class="bg-white p-6 rounded-lg shadow-md mt-6">
+                <details class="cursor-pointer">
+                    <summary class="text-xl font-bold text-gray-700">Panduan Skor Interaksi (Klik untuk Buka)</summary>
+                    <div class="space-y-3 text-gray-600 mt-4">
+                        <!-- Konten panduan tetap sama -->
+                         <div>
+                            <h4 class="font-semibold text-lg text-blue-600">Skor 5 (Gestur Kecil / Apresiasi)</h4>
+                            <ul class="list-disc pl-5">
+                                <li>Deposit: Mengucapkan terima kasih, pujian tulus, membuatkan kopi, pesan singkat menanyakan kabar.</li>
+                                <li>Withdrawal: Terlambat membalas pesan, lupa hal kecil, kritik yang kurang membangun.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-blue-600">Skor 10 (Upaya Sadar / Bantuan Aktif)</h4>
+                            <ul class="list-disc pl-5">
+                                <li>Deposit: Meluangkan waktu mendengarkan curhat, membantu tugas/pekerjaan, hadiah kecil bermakna, menepati janji penting.</li>
+                                <li>Withdrawal: Membatalkan janji mendadak, tidak menunjukkan empati, mengabaikan permintaan tolong.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-blue-600">Skor 15 (Dukungan Besar / Pengorbanan)</h4>
+                            <ul class="list-disc pl-5">
+                                <li>Deposit: Dukungan besar saat krisis, membantu finansial, pengorbanan waktu/kepentingan, menjaga rahasia besar.</li>
+                                <li>Withdrawal: Melanggar kepercayaan, berbohong hal penting, tidak ada saat dibutuhkan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+            </section>
+        </main>
+
+        <footer class="text-center mt-8 text-gray-700">
+            <p>Dibuat oleh <a href="https://www.linkedin.com/in/sulthan-abdi-dzikry/" target="_blank" class="text-blue-700 hover:underline">Sulthan Abdi Dzikry</a></p>
+        </footer>
+    </div>
+
+    <!-- Modal Tambah Relasi -->
+    <div id="person-modal" class="modal-backdrop fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden opacity-0">
+        <div class="modal-panel bg-white p-8 rounded-lg shadow-xl w-full max-w-md transform scale-95 opacity-0">
+            <h2 class="text-2xl font-bold text-gray-700 border-b pb-3 mb-4">👥 Tambah Relasi Baru</h2>
+            <form id="add-person-form">
+                <input type="text" id="person-name" placeholder="Masukkan nama relasi..." required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9CC6DB]">
+                <div class="flex justify-end gap-4 mt-6">
+                    <button type="button" class="close-modal-btn px-6 py-2 rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 transition">Batal</button>
+                    <button type="submit" class="bg-[#9CC6DB] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#86AFC5] transition">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Catat Interaksi -->
+    <div id="transaction-modal" class="modal-backdrop fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden opacity-0">
+        <div class="modal-panel bg-white p-8 rounded-lg shadow-xl w-full max-w-md transform scale-95 opacity-0">
+            <h2 class="text-2xl font-bold text-blue-700 border-b pb-3 mb-4">💸 Catat Interaksi</h2>
+            <form id="transaction-form" class="space-y-4">
+                <select id="person-select" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9CC6DB]"></select>
+                <select id="transaction-type" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9CC6DB]">
+                    <option value="deposit">Deposit (➕)</option>
+                    <option value="withdrawal">Withdrawal (➖)</option>
+                </select>
+                <select id="transaction-amount" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9CC6DB]"></select>
+                <textarea id="transaction-description" placeholder="Deskripsi singkat interaksi..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9CC6DB] h-24"></textarea>
+                <div id="withdrawal-warning" class="p-3 text-center font-semibold rounded-lg" style="display: none;"></div>
+                <div class="flex justify-end gap-4 mt-6">
+                    <button type="button" class="close-modal-btn px-6 py-2 rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 transition">Batal</button>
+                    <button type="submit" class="w-full bg-[#6B9F5D] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5C8A4F] transition">Simpan Transaksi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
